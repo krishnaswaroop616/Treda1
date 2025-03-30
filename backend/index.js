@@ -68,7 +68,7 @@ app.post("/login", async (req, res) => {
         }
 
         const token = jwt.sign({ userId: User._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-        res.cookie("token", token, { httpOnly: true, secure: true, sameSite: "None",maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days });
+        res.cookie("token", token, { httpOnly: true, secure: true, sameSite: "None",maxAge: 7 * 24 * 60 * 60 * 1000 });
         res.status(200).json({ message: "Login successful", user: { username: User.username, email: User.email } });
     }
     catch (err) {
@@ -91,13 +91,16 @@ app.get("/verify", async (req, res) => {
         }
         res.status(200).json({ user });
     } catch (error) {
+        if (error.name === "TokenExpiredError") {
+            return res.status(401).json({ message: "Token expired. Please log in again." });
+        }
         res.status(401).json({ message: "Invalid token" });
     }
 });
 
 
 app.post("/logout", (req, res) => {
-    res.clearCookie("token");
+    res.clearCookie("token", { path: '/', sameSite: "None", secure: true });
     res.json({ message: "Logged out successfully" });
 });
 
@@ -115,13 +118,13 @@ app.get("/summary", async (req, res) => {
     try {
         const token = req.cookies.token;
         if (!token) {
-            return res.status(401).json({ messaage: "Unauthorised" });
+            return res.status(401).json({ message: "Unauthorised" });
         }
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const userId = decoded.userId;
         const user = await UserModel.findById(userId);
         if (!user) {
-            return res.status(401).json({ messaage: "User not found" });
+            return res.status(401).json({ message: "User not found" });
 
         }
         
@@ -178,7 +181,7 @@ app.post("/newOrder", async (req, res) => {
         const token = req.cookies.token;
 
         if (!token) {
-            res.status(401).json({ message: "Unauthorized" });
+           return res.status(401).json({ message: "Unauthorized" });
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
