@@ -20,7 +20,7 @@ import Login from './landing_page/signup/Login';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <BrowserRouter>
+  <BrowserRouter basename="/">
 
     <Routes>
       <Route path='/' element={<HomePage />}></Route>
