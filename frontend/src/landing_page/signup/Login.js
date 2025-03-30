@@ -17,7 +17,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post("http://localhost:3002/login", formData,{withCredentials:true});
+            const res = await axios.post("https://treda-backend-o490.onrender.com/login", formData,{withCredentials:true});
             console.log(res);
             if(res && res.data){
                 alert(res.data.message);
