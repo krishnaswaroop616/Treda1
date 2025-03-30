@@ -18,19 +18,20 @@ function Dashboard() {
     
 
     useEffect(()=>{
-        const checkUser=async ()=>{
-            try{
-                const res=await axios.get("https://treda-backend-o490.onrender.com/verify",{withCredentials:true});
+       const checkUser = async () => {
+            try {
+                const res = await axios.get("https://treda-backend-o490.onrender.com/verify", { withCredentials: true });
                 setUser(res.data.user);
+            } catch (err) {
+                if (err.response && err.response.status === 401) {
+                    navigate('/login');
+                    setTimeout(() => {
+                        alert("Login to proceed");
+                    }, 50);
+                } else {
+                    console.error("Error verifying user:", err);
+                }
             }
-
-            catch(err){
-                navigate('/login');
-                setTimeout(() => {
-                    alert("Login to proceed");
-                }, 50);
-            }
-            
         };
 
         checkUser();
