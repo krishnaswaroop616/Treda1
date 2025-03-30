@@ -19,7 +19,7 @@ function Menu() {
 
     const handleLogout=async ()=>{
         try {
-            await axios.post("http://localhost:3002/logout", {}, { withCredentials: true });
+            await axios.post("https://treda-backend-o490.onrender.com/logout", {}, { withCredentials: true });
             
             navigate("/login");
             setTimeout(()=>{
