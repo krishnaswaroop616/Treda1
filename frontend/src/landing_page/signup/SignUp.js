@@ -17,7 +17,7 @@ const Signup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post("http://localhost:3002/signup", formData);
+            const res = await axios.post("https://treda-backend-o490.onrender.com/signup", formData);
             console.log(res);
             alert(res.data.message);
             navigate("/login");
