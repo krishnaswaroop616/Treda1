@@ -8,7 +8,7 @@ function Holdings() {
     const [allHoldings,setAllHoldings]=useState([]);
 
     async function getHoldings(){
-        const res=await axios.get("https://treda-backend-o490.onrender.com/getHoldings");
+        const res=await axios.get("https://treda-backend-o490.onrender.com/getHoldings",{withCredentials:true});
         const tempholdings=res.data;
         setAllHoldings([...tempholdings]);
     }
