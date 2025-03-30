@@ -5,6 +5,7 @@ const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const cookieParser = require("cookie-parser");
+const path=require("path");
 
 
 const { PositionModel } = require("./models/PositionModel");
@@ -251,7 +252,13 @@ app.post("/newOrder", async (req, res) => {
     catch (err) {
         res.status(401).json({ message: "Error placing order", err });
     }
-})
+});
+
+app.use(express.static(path.join(__dirname, "client", "build")));
+
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
 
 
 
