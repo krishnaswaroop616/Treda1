@@ -21,6 +21,7 @@ const { default: axios } = require("axios");
 const app = express();
 app.use(cors({
     origin: "https://treda1-frontend.onrender.com",
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }));
 app.use(express.json());
