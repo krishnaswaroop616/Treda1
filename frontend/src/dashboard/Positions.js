@@ -6,7 +6,7 @@ function Positions() {
     const [allPositions, setAllPositions] = useState([]);
 
     async function getPositions() {
-        const res = await axios.get("http://localhost:3002/getPositions");
+        const res = await axios.get("https://treda-backend-o490.onrender.com/getPositions");
         const temppositions = res.data;
         setAllPositions([...temppositions]);
     }
